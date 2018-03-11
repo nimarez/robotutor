@@ -1,3 +1,4 @@
+'use strict';
 /*
  * Main node.js functions for Flashcard Study Buddy
  */
@@ -8,7 +9,7 @@ const HOSTING_URL = 'https://robotutor-4a6ff.firebaseapp.com';
 
 process.env.DEBUG = 'actions-on-google:*';
 const https = require('https');
-const ApiAiApp = require('actions-on-google').DialogflowApp;
+const DialogflowApp = require('actions-on-google').DialogflowApp;
 const functions = require('firebase-functions');
 
 /* Consts (for actions, contexts, lines) */
@@ -180,7 +181,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
   console.log('headers: ' + JSON.stringify(request.headers));
   console.log('body: ' + JSON.stringify(request.body));
 
-  const app = new ApiAiApp({
+  const app = new DialogflowApp({
     request,
     response
   });
@@ -289,7 +290,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
    * if no sets are found.
    */
   function findSetOnly(app) {
-    set_name = app.getArgument(SET_ARGUMENT).replace(/\s/g, '%20');
+    var set_name = app.getArgument(SET_ARGUMENT).replace(/\s/g, '%20');
 
     var options = getHttpRequestOptions(app, '/2.0/search/sets?q=' + set_name);
 
